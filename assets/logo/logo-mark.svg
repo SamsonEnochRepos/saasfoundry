@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" role="img" aria-label="SAAS Foundry mark">
+  <title>SAAS Foundry</title>
+  <!-- Forge face: a hexagonal die, the shape a billet takes under the hammer -->
+  <path d="M20 2.4 35.2 11.2v17.6L20 37.6 4.8 28.8V11.2Z"
+        stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" opacity="0.55"/>
+  <!-- Neural cluster: three linked nodes, the intelligence being forged -->
+  <path d="M20 13 12.5 26M20 13l7.5 13M12.5 26h15"
+        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.75"/>
+  <circle cx="20" cy="13" r="3.4" fill="#F39C2D"/>
+  <circle cx="12.5" cy="26" r="2.7" fill="#18D2E8"/>
+  <circle cx="27.5" cy="26" r="2.7" fill="#18D2E8"/>
+</svg>

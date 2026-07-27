@@ -1,0 +1,160 @@
+/* ==========================================================================
+   SAAS FOUNDRY — animations.css
+   Scroll-reveal states, keyframes and the reduced-motion guard.
+
+   Contract: js/animations.js observes every [data-animate] element with a
+   single IntersectionObserver, adds .is-visible once, then unobserves it.
+   Reveals therefore never replay on scroll-up.
+
+   Only `transform` and `opacity` are animated — nothing here can cause
+   layout shift or trigger a reflow.
+
+   Table of contents
+     01. Reveal states
+     02. Stagger
+     03. Keyframes
+     04. Named effects
+     05. Reduced-motion guard
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. REVEAL STATES
+   ========================================================================== */
+
+[data-animate] {
+  opacity: 0;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-animate="fade-up"]    { transform: translate3d(0, 24px, 0); }
+[data-animate="fade-down"]  { transform: translate3d(0, -20px, 0); }
+[data-animate="fade-left"]  { transform: translate3d(28px, 0, 0); }
+[data-animate="fade-right"] { transform: translate3d(-28px, 0, 0); }
+[data-animate="fade"]       { transform: none; }
+[data-animate="zoom"]       { transform: scale(0.96); }
+
+/* Timeline connectors: draw downward from their top edge. */
+[data-animate="grow"] {
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Once the reveal has run, release the compositor hint. */
+[data-animate].is-settled { will-change: auto; }
+
+
+/* ==========================================================================
+   02. STAGGER
+   Grid children carry --i (set in markup); delay is derived from it so no
+   per-element JS timers are needed.
+   ========================================================================== */
+
+[data-stagger] > * { --reveal-delay: calc(var(--i, 0) * 70ms); }
+[data-stagger="fast"] > * { --reveal-delay: calc(var(--i, 0) * 45ms); }
+[data-stagger="slow"] > * { --reveal-delay: calc(var(--i, 0) * 110ms); }
+
+
+/* ==========================================================================
+   03. KEYFRAMES
+   ========================================================================== */
+
+/* Slow vertical drift for the hero's floating chips. */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, var(--drift, -14px), 0); }
+}
+
+/* Breathing halo behind the hero illustration. */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%      { opacity: 0.6;  transform: scale(1.06); }
+}
+
+/* Node ping in the neural graph and on the contact map pin. */
+@keyframes ping {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  70%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Self-drawing SVG connection lines. */
+@keyframes draw-line {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Data packet travelling along a connection path. Edges carry
+   pathLength="100", so one dash pattern spans the whole edge and every
+   packet moves at the same rate whatever the edge's real length. */
+@keyframes packet {
+  0%   { stroke-dashoffset: 106; opacity: 0; }
+  10%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { stroke-dashoffset: 0;   opacity: 0; }
+}
+
+/* Marquee for the brochure's rotating value line. */
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Scroll-cue caret in the hero. */
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ==========================================================================
+   04. NAMED EFFECTS
+   ========================================================================== */
+
+.anim-drift {
+  animation: drift var(--drift-dur, 10s) var(--ease-in-out) infinite;
+  animation-delay: var(--drift-delay, 0s);
+}
+
+.anim-glow  { animation: pulse-glow 9s var(--ease-in-out) infinite; }
+.anim-nudge { animation: nudge 2.2s var(--ease-in-out) infinite; }
+
+
+/* ==========================================================================
+   05. REDUCED-MOTION GUARD
+   One global switch: reveals resolve instantly, ambient loops stop, and
+   smooth scrolling is disabled. Counters are frozen to their final value
+   by js/counters.js, which reads the same media query.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+}

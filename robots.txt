@@ -1,0 +1,10 @@
+# SAAS Foundry — robots.txt
+# Replace the host below with the live domain before deploying.
+
+User-agent: *
+Allow: /
+
+# Nothing here needs crawling.
+Disallow: /Resource/
+
+Sitemap: https://www.saasfoundry.ai/sitemap.xml
