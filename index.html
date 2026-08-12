@@ -129,7 +129,7 @@
           <li><a class="nav__link" href="#hero" data-spy>Home</a></li>
           <li><a class="nav__link" href="#programs" data-spy>Programs</a></li>
           <li><a class="nav__link" href="#why-us" data-spy>Why Us</a></li>
-          <li><a class="nav__link" href="#team" data-spy>Team</a></li>
+          <!-- Team link removed while the Meet the Experts section is hidden. -->
           <li><a class="nav__link" href="#contact" data-spy>Contact</a></li>
         </ul>
         <a class="btn btn--primary btn--sm btn--inline nav__cta" href="#programs">Explore Programs</a>
@@ -186,23 +186,15 @@
             </a>
             <a class="btn btn--ghost" href="#contact">Contact Us</a>
           </div>
-
-          <ul class="hero__promises" data-animate="fade-up">
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Create your agent, zero code or code</li>
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Architect Enterprise AI solutions</li>
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Prompt like a pro</li>
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Talk to your data for decisions</li>
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Deploy AI, not just discuss it</li>
-          </ul>
         </div>
 
         <!-- The Neural Forge: hand-authored SVG constellation. Connections
              draw themselves once, five carry travelling data packets, and
              nodes brighten near the pointer (js/animations.js). -->
-        <div class="hero__visual" data-forge aria-hidden="true">
-          <div class="forge__halo"></div>
+        <div class="hero__visual" data-forge>
+          <div class="forge__halo" aria-hidden="true"></div>
 
-          <svg class="forge" viewBox="0 0 520 520" fill="none">
+          <svg class="forge" viewBox="0 0 520 520" fill="none" aria-hidden="true">
             <defs>
               <radialGradient id="forgeCore">
                 <stop offset="0%" stop-color="#F39C2D"/>
@@ -283,16 +275,32 @@
             <circle class="forge__core" cx="260" cy="262" r="10" fill="url(#forgeCore)"/>
           </svg>
 
-          <!-- Floating capability chips, each on its own drift cycle -->
-          <span class="forge__chip forge__chip--1 anim-drift">
-            <span class="forge__chip-dot"></span>Claude Code
-          </span>
-          <span class="forge__chip forge__chip--2 anim-drift">
-            <span class="forge__chip-dot forge__chip-dot--alt"></span>MCP
-          </span>
-          <span class="forge__chip forge__chip--3 anim-drift">
-            <span class="forge__chip-dot"></span>Agentic RAG
-          </span>
+          <!-- Capability labels floating around the constellation. These are
+               real content, not decoration — the visual is deliberately not
+               aria-hidden, only the SVG and the halo are. Each label runs its
+               own drift cycle (positions and timings in style.css). -->
+          <ul class="forge__chips" aria-label="What SAAS Foundry enables you to do">
+            <li class="forge__chip forge__chip--1 anim-drift">
+              <span class="forge__chip-dot forge__chip-dot--alt" aria-hidden="true"></span>
+              <span class="forge__chip-text">Architect Enterprise AI solutions</span>
+            </li>
+            <li class="forge__chip forge__chip--2 anim-drift">
+              <span class="forge__chip-dot" aria-hidden="true"></span>
+              <span class="forge__chip-text">Create your agent, zero code or code</span>
+            </li>
+            <li class="forge__chip forge__chip--3 anim-drift">
+              <span class="forge__chip-dot" aria-hidden="true"></span>
+              <span class="forge__chip-text">Prompt like a pro</span>
+            </li>
+            <li class="forge__chip forge__chip--4 anim-drift">
+              <span class="forge__chip-dot" aria-hidden="true"></span>
+              <span class="forge__chip-text">Talk to your data for decisions</span>
+            </li>
+            <li class="forge__chip forge__chip--5 anim-drift">
+              <span class="forge__chip-dot forge__chip-dot--alt" aria-hidden="true"></span>
+              <span class="forge__chip-text">Deploy AI, not just discuss it</span>
+            </li>
+          </ul>
         </div>
 
       </div>
@@ -326,12 +334,6 @@
         <ul class="stats__grid" data-stagger="fast">
 
           <li class="stat" data-animate="fade-up">
-            <span class="stat__value"><span data-count="20" data-suffix="+">0</span></span>
-            <span class="stat__label">Years Experience</span>
-            <span class="stat__note">Enterprise IT leadership</span>
-          </li>
-
-          <li class="stat" data-animate="fade-up">
             <span class="stat__value"><span data-count="100" data-suffix="+">0</span></span>
             <span class="stat__label">Professionals Trained</span>
             <span class="stat__note">On AI &amp; Agentic AI</span>
@@ -340,19 +342,19 @@
           <li class="stat" data-animate="fade-up">
             <span class="stat__value stat__value--alt"><span data-count="40" data-suffix="+">0</span></span>
             <span class="stat__label">Developers Enabled</span>
-            <span class="stat__note">Claude Code &amp; Agentic SDLC</span>
+            <span class="stat__note">Claude Code &amp; Agentic</span>
           </li>
 
           <li class="stat" data-animate="fade-up">
             <span class="stat__value stat__value--word">Enterprise</span>
             <span class="stat__label">AI Expertise</span>
-            <span class="stat__note">Architecture to production</span>
+            <span class="stat__note">An Expert Group with Real Experience</span>
           </li>
 
           <li class="stat" data-animate="fade-up">
             <span class="stat__value stat__value--word">Global</span>
             <span class="stat__label">Industry Reach</span>
-            <span class="stat__note">An expert bench across the globe</span>
+            <span class="stat__note">Global Trainer Network</span>
           </li>
 
         </ul>
@@ -383,7 +385,7 @@
             <p class="about__text" data-animate="fade-up">
               We exist because the gap between knowing about AI and shipping AI has
               never been wider. Most training stops at theory. Ours ends with a working
-              agent, a RAG pipeline, or a production-ready Agentic SDLC project that
+              agent, a RAG pipeline, or a production-ready Agentic project that
               you built yourself &mdash; with a mentor who has done it before at
               Fortune 500 scale.
             </p>
@@ -414,48 +416,73 @@
             </p>
           </div>
 
-          <!-- Capability stack. To use photography instead, replace this
-               <figure> with a <picture> carrying explicit width/height. -->
+          <!-- Credibility panel: the four metrics from the statistics band,
+               expanded into a 2x2 grid. The counters reuse the [data-count]
+               contract from js/counters.js, so they animate on their own
+               observer without any extra wiring. -->
           <figure class="about__figure" data-animate="fade-left">
-            <svg class="stack" viewBox="0 0 480 460" role="img"
-                 aria-labelledby="stack-title stack-desc">
-              <title id="stack-title">The SAAS Foundry capability stack</title>
-              <desc id="stack-desc">Three stacked layers: AI Foundation at the base,
-                Agentic Foundation in the middle, and Production Delivery at the top.</desc>
-
-              <!-- Base: AI Foundation -->
-              <g class="stack__layer stack__layer--1">
-                <path class="stack__side" d="M100 330 240 400v18L100 348Z"/>
-                <path class="stack__side" d="M380 330 240 400v18l140-70Z"/>
-                <path class="stack__face" d="M100 330 240 260l140 70-140 70Z"/>
-                <text class="stack__label" x="240" y="336">AI FOUNDATION</text>
-              </g>
-
-              <!-- Middle: Agentic Foundation -->
-              <g class="stack__layer stack__layer--2">
-                <path class="stack__side" d="M100 225 240 295v18L100 243Z"/>
-                <path class="stack__side" d="M380 225 240 295v18l140-70Z"/>
-                <path class="stack__face" d="M100 225 240 155l140 70-140 70Z"/>
-                <text class="stack__label" x="240" y="231">AGENTIC FOUNDATION</text>
-              </g>
-
-              <!-- Top: Production Delivery -->
-              <g class="stack__layer stack__layer--3">
-                <path class="stack__side" d="M100 120 240 190v18L100 138Z"/>
-                <path class="stack__side" d="M380 120 240 190v18l140-70Z"/>
-                <path class="stack__face stack__face--top" d="M100 120 240 50l140 70-140 70Z"/>
-                <text class="stack__label stack__label--top" x="240" y="126">PRODUCTION DELIVERY</text>
-              </g>
-
-              <!-- Spine connecting the layers -->
-              <path class="stack__spine" d="M240 400V50"/>
-              <circle class="stack__pin" cx="240" cy="50" r="7"/>
-            </svg>
-
-            <figcaption class="about__caption">
-              Every path starts with the foundation, then branches into a
-              <strong>No-Code track</strong>, a <strong>Developer track</strong>, or both.
+            <figcaption class="about__figure-head">
+              <span class="about__figure-eyebrow">SAAS Foundry at a glance</span>
+              <span class="about__figure-rule" aria-hidden="true"></span>
             </figcaption>
+
+            <ul class="proof">
+
+              <li class="proof__item">
+                <span class="proof__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="9" cy="8" r="3.2"/>
+                    <path d="M3.4 19.4c0-3 2.5-5.2 5.6-5.2s5.6 2.2 5.6 5.2"/>
+                    <path d="M16.2 5.6a3.2 3.2 0 0 1 0 6.2"/>
+                    <path d="M17.6 14.7c1.9.7 3 2.4 3 4.7"/>
+                  </svg>
+                </span>
+                <span class="proof__value"><span data-count="100" data-suffix="+">0</span></span>
+                <span class="proof__label">Professionals Trained</span>
+                <span class="proof__note">On AI &amp; Agentic AI</span>
+              </li>
+
+              <li class="proof__item proof__item--alt">
+                <span class="proof__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="m8.6 8.2-4.2 3.8 4.2 3.8"/>
+                    <path d="m15.4 8.2 4.2 3.8-4.2 3.8"/>
+                    <path d="M13.4 5.6 10.6 18.4"/>
+                  </svg>
+                </span>
+                <span class="proof__value proof__value--alt"><span data-count="40" data-suffix="+">0</span></span>
+                <span class="proof__label">Developers Enabled</span>
+                <span class="proof__note">Claude Code &amp; Agentic</span>
+              </li>
+
+              <li class="proof__item">
+                <span class="proof__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M3.5 20h17"/>
+                    <path d="M6 20V6.6A1.6 1.6 0 0 1 7.6 5h4.8A1.6 1.6 0 0 1 14 6.6V20"/>
+                    <path d="M14 11.4h2.9a1.6 1.6 0 0 1 1.6 1.6V20"/>
+                    <path d="M9 9h2M9 12.4h2M9 15.8h2"/>
+                  </svg>
+                </span>
+                <span class="proof__value proof__value--word">Enterprise</span>
+                <span class="proof__label">AI Expertise</span>
+                <span class="proof__note">An Expert Group with Real Experience</span>
+              </li>
+
+              <li class="proof__item">
+                <span class="proof__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8"/>
+                    <path d="M12 4c2.1 2.2 3.2 5 3.2 8s-1.1 5.8-3.2 8c-2.1-2.2-3.2-5-3.2-8S9.9 6.2 12 4Z"/>
+                    <path d="M4.4 9.6h15.2M4.4 14.4h15.2"/>
+                  </svg>
+                </span>
+                <span class="proof__value proof__value--word">Global</span>
+                <span class="proof__label">Industry Reach</span>
+                <span class="proof__note">Global Trainer Network</span>
+              </li>
+
+            </ul>
           </figure>
 
         </div>
@@ -579,12 +606,12 @@
               </p>
               <ul class="jcard__tags">
                 <li class="tag">n8n</li>
-                <li class="tag">LangFlow</li>
                 <li class="tag">Voiceflow</li>
+                <li class="tag">RAG</li>
               </ul>
               <p class="jcard__outcome">
                 <span class="jcard__outcome-label">Outcome</span>
-                AI-powered agents for Banking, HR, Finance &amp; Legal.
+                AI-powered agents and automation, without code.
               </p>
             </article>
 
@@ -612,7 +639,7 @@
               </ul>
               <p class="jcard__outcome">
                 <span class="jcard__outcome-label">Outcome</span>
-                Production agents, sub-agents and a full Agentic SDLC project.
+                Production agents, sub-agents and a full Agentic project.
               </p>
             </article>
 
@@ -632,7 +659,7 @@
               <h3 class="jcard__title">Both Streams</h3>
               <p class="jcard__text">
                 Take both tracks and cover the full spectrum &mdash; from no-code
-                automation for the business to production Agentic SDLC for engineering.
+                automation for the business to production level Agentic Solutions for engineering.
               </p>
               <a class="link-underline" href="#programs">
                 Compare the three streams
@@ -679,7 +706,7 @@
               <dt>Duration</dt>
               <dd>16&ndash;20 hours</dd>
               <dt>Format</dt>
-              <dd>Live cohort, hands-on labs</dd>
+              <dd>Live cohort</dd>
             </dl>
 
             <div class="pcard__block">
@@ -691,7 +718,7 @@
             </div>
 
             <div class="pcard__block">
-              <h4 class="pcard__label">Technologies</h4>
+              <h4 class="pcard__label">Tech Stack</h4>
               <ul class="pcard__tags">
                 <li class="tag">Prompt Engineering</li>
                 <li class="tag">Context Engineering</li>
@@ -701,7 +728,7 @@
 
             <div class="pcard__outcome">
               <h4 class="pcard__label">Outcome</h4>
-              <p>Hands-on AI understanding with a clear next step tailored to your role.</p>
+              <p>Empower your AI Knowledge with Clarity</p>
             </div>
 
             <a class="btn btn--ghost btn--block pcard__cta" href="#contact">
@@ -735,19 +762,24 @@
             </div>
 
             <div class="pcard__block">
-              <h4 class="pcard__label">Technologies</h4>
+              <h4 class="pcard__label">Tech Stack</h4>
               <ul class="pcard__tags">
                 <li class="tag">n8n</li>
-                <li class="tag">LangFlow</li>
                 <li class="tag">Voiceflow</li>
+                <li class="tag">PostgreSQL</li>
+                <li class="tag">RAG</li>
+                <li class="tag">Text-to-SQL</li>
+                <li class="tag">MCP</li>
+                <li class="tag">Tool Integration</li>
+                <li class="tag">Vector DB</li>
               </ul>
             </div>
 
             <div class="pcard__outcome">
               <h4 class="pcard__label">Outcome</h4>
               <p>
-                Launch AI-powered agents for Banking, HR, Finance &amp; Legal
-                &mdash; without writing a single line of code.
+                Launch AI-powered agents and automation across your everyday
+                workflows &mdash; without writing a single line of code.
               </p>
             </div>
 
@@ -781,12 +813,14 @@
             </div>
 
             <div class="pcard__block">
-              <h4 class="pcard__label">Technologies</h4>
+              <h4 class="pcard__label">Tech Stack</h4>
               <ul class="pcard__tags">
                 <li class="tag">Claude Code</li>
                 <li class="tag">MCP</li>
                 <li class="tag">LangGraph</li>
-                <li class="tag">Python</li>
+                <li class="tag">LangChain</li>
+                <li class="tag">Advanced RAG</li>
+                <li class="tag">Agentic Frameworks</li>
                 <li class="tag">Vector DB</li>
               </ul>
             </div>
@@ -795,7 +829,7 @@
               <h4 class="pcard__label">Outcome</h4>
               <p>
                 Deploy production-ready AI agents, sub-agents &amp; a full
-                Agentic SDLC project.
+                Agentic project.
               </p>
             </div>
 
@@ -817,8 +851,13 @@
     <!-- ========================================================
          TECHNOLOGIES
          Marks are original geometric glyphs, not vendor logo files.
+
+         HIDDEN IN THIS RELEASE. Markup, CSS, assets and behaviour are all
+         intact — delete the data-section-hidden attribute below to bring the
+         section back, and restore the "Technologies" link in the footer.
          ======================================================== -->
-    <section class="band band--dark tech" id="tech" aria-labelledby="tech-title">
+    <section class="band band--dark tech" id="tech" aria-labelledby="tech-title"
+             data-section-hidden>
       <div class="container container--wide">
 
         <div class="section-head section-head--center">
@@ -1108,8 +1147,15 @@
     <!-- ========================================================
          MEET THE EXPERTS
          Roles, not biographies — deliberately, per the brochure.
+
+         HIDDEN IN THIS RELEASE. Markup, CSS, assets and behaviour are all
+         intact — delete the data-section-hidden attribute below to bring the
+         section back, and restore the "Team" links in the header nav and
+         footer. Restoring it also removes the need for band--ruled on the
+         testimonials section that follows.
          ======================================================== -->
-    <section class="band band--light team" id="team" aria-labelledby="team-title">
+    <section class="band band--light team" id="team" aria-labelledby="team-title"
+             data-section-hidden>
       <div class="container container--wide">
 
         <div class="section-head section-head--center">
@@ -1179,7 +1225,10 @@
          attributable quote (and remove the .quote__flag element) before
          this site goes live. Do not ship invented testimonials.
          ======================================================== -->
-    <section class="band band--deep testimonials" aria-labelledby="testimonials-title">
+    <!-- band--ruled: with Meet the Experts hidden, this deep band meets the
+         deep "Why Us" band directly, so the hairline keeps the two readable
+         as separate sections. -->
+    <section class="band band--deep band--ruled testimonials" aria-labelledby="testimonials-title">
       <div class="container container--wide">
 
         <div class="section-head">
@@ -1335,8 +1384,8 @@
                 <p>
                   Real agents, RAG pipelines and production-ready code &mdash; not
                   slides and theory. No-Code participants launch working agents in
-                  n8n, LangFlow and Voiceflow. Developer participants finish with a
-                  full Agentic SDLC project built with Claude Code, MCP and agent
+                  n8n and Voiceflow. Developer participants finish with a
+                  full Agentic project built with Claude Code, MCP and agent
                   frameworks.
                 </p>
               </div>
@@ -1393,7 +1442,7 @@
             <div class="faq__panel" id="faq-panel-7" role="region" aria-labelledby="faq-btn-7">
               <div class="faq__answer">
                 <p>
-                  Yes. We have enabled 40+ developers on Claude Code and Agentic SDLC
+                  Yes. We have enabled 100+ professionals on Agentic AI Solutions
                   inside organisations, and can shape a private cohort around your
                   stack and use cases. Get in touch with your team size and goals.
                 </p>
@@ -1467,96 +1516,93 @@
             <p class="contact__urgency" data-animate="fade-up">
               <span class="chip chip--alt"><span class="chip__dot" aria-hidden="true"></span>Limited seats per cohort</span>
             </p>
-
-            <!-- Stylised map. No third-party iframe: keeps the page free of
-                 external requests and trackers. Swap for an embed if needed. -->
-            <figure class="map" data-animate="fade-up">
-              <svg class="map__art" viewBox="0 0 520 200" fill="none" role="img"
-                   aria-label="Stylised map showing our base in Chennai, India">
-                <g class="map__grid">
-                  <path d="M0 46h520M0 96h520M0 146h520M80 0v200M180 0v200M300 0v200M410 0v200"/>
-                </g>
-                <path class="map__road" d="M0 128C90 128 120 60 210 60s130 84 220 84h90"/>
-                <path class="map__road map__road--minor" d="M180 0v72c0 20 14 30 34 30h180"/>
-                <circle class="map__halo" cx="300" cy="102" r="26"/>
-                <circle class="map__pin" cx="300" cy="102" r="7"/>
-              </svg>
-              <figcaption class="map__caption">
-                <strong>Chennai, India</strong>
-                <a class="link-underline" href="https://www.google.com/maps/search/?api=1&amp;query=Chennai%2C+India"
-                   target="_blank" rel="noopener noreferrer">
-                  Open in Google Maps
-                  <svg class="btn__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M6 3h7v7M13 3 4 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
-              </figcaption>
-            </figure>
           </div>
 
-          <!-- Form posts nowhere by default — see handleSubmit in js/main.js -->
-          <div class="contact__form-wrap" data-animate="fade-left">
-            <form class="form" data-contact-form novalidate>
-              <p class="form__intro">Request cohort details</p>
+          <!-- Global availability panel. The wireframe globe is hand-authored
+               SVG built from the same primitives as the hero constellation:
+               pathLength="100" arcs carrying travelling packets, ping halos on
+               the nodes, and one amber node against the cyan. All motion is
+               CSS and stops under the reduced-motion guard. -->
+          <div class="contact__visual" data-animate="fade-left">
+            <p class="globe__eyebrow">Available worldwide</p>
 
-              <div class="field">
-                <label class="field__label" for="name">Full name</label>
-                <input class="field__input" type="text" id="name" name="name"
-                       autocomplete="name" required
-                       aria-describedby="name-error">
-                <p class="field__error" id="name-error" data-error-for="name"></p>
-              </div>
+            <div class="globe" aria-hidden="true">
+              <span class="globe__glow"></span>
 
-              <div class="field">
-                <label class="field__label" for="email">Work email</label>
-                <input class="field__input" type="email" id="email" name="email"
-                       autocomplete="email" required
-                       aria-describedby="email-error">
-                <p class="field__error" id="email-error" data-error-for="email"></p>
-              </div>
+              <svg class="globe__art" viewBox="0 0 320 320" fill="none">
+                <defs>
+                  <!-- Shared by the link layer and the packet layer, exactly as
+                       the hero forge does it. -->
+                  <path id="g-arc1" pathLength="100" d="M112 124Q170 96 226 168"/>
+                  <path id="g-arc2" pathLength="100" d="M92 168Q140 234 188 224"/>
+                  <path id="g-arc3" pathLength="100" d="M198 112Q122 138 120 206"/>
+                </defs>
 
-              <div class="field">
-                <label class="field__label" for="phone">Phone <span class="field__optional">(optional)</span></label>
-                <input class="field__input" type="tel" id="phone" name="phone"
-                       autocomplete="tel" aria-describedby="phone-error">
-                <p class="field__error" id="phone-error" data-error-for="phone"></p>
-              </div>
+                <!-- Outer orbit, turning once every 90s -->
+                <circle class="globe__orbit" cx="160" cy="160" r="134"/>
 
-              <div class="field">
-                <label class="field__label" for="stream">Which stream interests you?</label>
-                <select class="field__input field__input--select" id="stream" name="stream" required
-                        aria-describedby="stream-error">
-                  <option value="">Select a stream</option>
-                  <option value="stream-1">Stream 1 — Curious to Capable</option>
-                  <option value="stream-2">Stream 2 — Agentic, No-Code</option>
-                  <option value="stream-3">Stream 3 — Agentic, Code Based with AI</option>
-                  <option value="both">Both streams</option>
-                  <option value="corporate">Private cohort for my team</option>
-                </select>
-                <p class="field__error" id="stream-error" data-error-for="stream"></p>
-              </div>
+                <g class="globe__wire">
+                  <circle cx="160" cy="160" r="96"/>
+                  <!-- Meridians -->
+                  <ellipse cx="160" cy="160" rx="26" ry="96"/>
+                  <ellipse cx="160" cy="160" rx="60" ry="96"/>
+                  <!-- Latitudes -->
+                  <ellipse cx="160" cy="160" rx="96" ry="27"/>
+                  <ellipse cx="160" cy="120" rx="87" ry="24"/>
+                  <ellipse cx="160" cy="200" rx="87" ry="24"/>
+                  <ellipse cx="160" cy="88"  rx="64" ry="18"/>
+                  <ellipse cx="160" cy="232" rx="64" ry="18"/>
+                </g>
 
-              <div class="field">
-                <label class="field__label" for="message">What do you want to be able to do?</label>
-                <textarea class="field__input field__input--area" id="message" name="message"
-                          rows="4" required aria-describedby="message-error"></textarea>
-                <p class="field__error" id="message-error" data-error-for="message"></p>
-              </div>
+                <g class="globe__links">
+                  <use href="#g-arc1"/><use href="#g-arc2"/><use href="#g-arc3"/>
+                </g>
 
-              <button class="btn btn--primary btn--block" type="submit">
-                Request details
+                <g class="globe__packets">
+                  <use href="#g-arc1" class="globe__packet globe__packet--a"/>
+                  <use href="#g-arc2" class="globe__packet globe__packet--b"/>
+                  <use href="#g-arc3" class="globe__packet globe__packet--c"/>
+                </g>
+
+                <g class="globe__nodes">
+                  <circle class="globe__ping" cx="112" cy="124" r="5"/>
+                  <circle class="globe__node" cx="112" cy="124" r="4.5"/>
+
+                  <circle class="globe__ping globe__ping--b" cx="198" cy="112" r="5"/>
+                  <circle class="globe__node" cx="198" cy="112" r="4.5"/>
+
+                  <circle class="globe__ping globe__ping--c globe__ping--alt" cx="226" cy="168" r="5"/>
+                  <circle class="globe__node globe__node--alt" cx="226" cy="168" r="5"/>
+
+                  <circle class="globe__ping globe__ping--d" cx="188" cy="224" r="5"/>
+                  <circle class="globe__node" cx="188" cy="224" r="4.5"/>
+
+                  <circle class="globe__ping globe__ping--e" cx="120" cy="206" r="5"/>
+                  <circle class="globe__node" cx="120" cy="206" r="4.5"/>
+
+                  <circle class="globe__node" cx="92" cy="168" r="4"/>
+                </g>
+              </svg>
+            </div>
+
+            <div class="globe__body">
+              <h3 class="globe__title">Learn From Anywhere</h3>
+              <p class="globe__text">Online delivery. Global access.</p>
+
+              <ul class="globe__chips">
+                <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Online</li>
+                <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Global</li>
+                <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Live cohorts</li>
+              </ul>
+
+              <a class="btn btn--primary globe__cta" href="mailto:saasfoundryai@gmail.com">
+                Talk to us
                 <svg class="btn__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path d="M2.5 8h11m-4.5-4.5L13.5 8 9.5 12.5" stroke="currentColor"
                         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              </button>
-
-              <p class="form__status" data-form-status role="status" aria-live="polite"></p>
-
-              <p class="form__legal">
-                We&rsquo;ll only use these details to answer your enquiry.
-              </p>
-            </form>
+              </a>
+            </div>
           </div>
 
         </div>
@@ -1604,7 +1650,8 @@
               <li><a href="#about">About</a></li>
               <li><a href="#journey">Learning Journey</a></li>
               <li><a href="#why-us">Why Us</a></li>
-              <li><a href="#team">Team</a></li>
+              <!-- Team link removed while the Meet the Experts section is hidden. -->
+              <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
 
@@ -1614,7 +1661,8 @@
               <li><a href="#programs">Curious to Capable</a></li>
               <li><a href="#programs">Agentic — No-Code</a></li>
               <li><a href="#programs">Agentic — Code Based</a></li>
-              <li><a href="#tech">Technologies</a></li>
+              <!-- Technologies link removed while the Tools from the
+                   production floor section is hidden. -->
               <li><a href="#faq">FAQ</a></li>
             </ul>
           </div>

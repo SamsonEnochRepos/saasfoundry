@@ -68,10 +68,12 @@
    03. KEYFRAMES
    ========================================================================== */
 
-/* Slow vertical drift for the hero's floating chips. */
+/* Slow drift for the hero's floating labels. Each label sets its own
+   vector (--drift-x / --drift-y), so vertical, horizontal and diagonal
+   motion all come out of this one keyframe. */
 @keyframes drift {
   0%, 100% { transform: translate3d(0, 0, 0); }
-  50%      { transform: translate3d(0, var(--drift, -14px), 0); }
+  50%      { transform: translate3d(var(--drift-x, 0px), var(--drift-y, -14px), 0); }
 }
 
 /* Breathing halo behind the hero illustration. */

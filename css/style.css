@@ -302,6 +302,14 @@ p { text-wrap: pretty; }
 .container--wide { max-width: 1360px; }
 .container--narrow { max-width: 880px; }
 
+/* Release switch for a whole section. Add data-section-hidden to a <section>
+   to take it out of the current release: it leaves the flow completely, so no
+   band padding, no gap and no scroll target remain. Markup, CSS and JS all
+   stay in place — remove the attribute to bring the section back. Any nav or
+   footer link pointing at it must be removed at the same time, otherwise the
+   anchor scrolls nowhere. */
+[data-section-hidden] { display: none; }
+
 /* A band is a full-bleed horizontal stripe of the page. Alternating
    dark/light bands give the page its chapter rhythm. */
 .band {
@@ -899,20 +907,16 @@ p { text-wrap: pretty; }
 
 .hero__lead { color: var(--text-secondary); }
 
+/* The capability statements now live around the constellation, so the CTAs
+   close the left column — the extra bottom margin keeps that ending
+   deliberate rather than leaving the buttons flush against the fold. */
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-4);
   margin-top: var(--sp-2);
+  margin-bottom: var(--sp-2);
 }
-
-.hero__promises {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-3);
-  margin-top: var(--sp-3);
-}
-.hero__promises .chip__dot { color: var(--cyan-500); }
 
 /* --- The Neural Forge -------------------------------------------------- */
 
@@ -1003,29 +1007,52 @@ p { text-wrap: pretty; }
 
 .forge__core { filter: drop-shadow(0 0 16px rgba(243, 156, 45, 0.6)); }
 
-/* Floating capability chips */
+/* Floating capability labels.
+   The list itself is a transparent overlay so the gaps between labels stay
+   transparent to the pointer — the proximity effect on the nodes underneath
+   keeps working. */
+.forge__chips {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .forge__chip {
   position: absolute;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
-  padding: 0.5rem 0.9rem;
-  border-radius: var(--r-pill);
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.875rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background-color: rgba(17, 29, 71, 0.72);
+  background-color: rgba(17, 29, 71, 0.78);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-md);
+  /* Depth, then a faint cyan bloom so the labels read as nodes of the
+     constellation rather than cards dropped on top of it. */
+  box-shadow:
+    var(--shadow-md),
+    0 0 24px -10px rgba(24, 210, 232, 0.55);
   font-family: var(--font-mono);
   font-size: 0.75rem;
+  line-height: 1.45;
   letter-spacing: 0.02em;
-  color: var(--text-secondary);
-  white-space: nowrap;
+  color: var(--text-primary);
+  pointer-events: auto;
 }
 
+/* --chip-ch is a character budget, not a pixel width: the stack is
+   monospace, so 1ch is one glyph and the line breaks land on the same
+   words at every font size. */
+.forge__chip-text { max-width: var(--chip-ch, 20ch); }
+
 .forge__chip-dot {
+  flex: none;
   width: 6px;
   height: 6px;
+  /* Centres the dot on the first line of text, not on the whole label. */
+  margin-top: 0.36rem;
   border-radius: 50%;
   background-color: var(--cyan-500);
   box-shadow: 0 0 8px rgba(24, 210, 232, 0.9);
@@ -1035,9 +1062,35 @@ p { text-wrap: pretty; }
   box-shadow: 0 0 8px rgba(243, 156, 45, 0.9);
 }
 
-.forge__chip--1 { top: 9%;  right: 2%;  --drift: -16px; --drift-dur: 9s;  --drift-delay: 0s; }
-.forge__chip--2 { top: 46%; left: -4%;  --drift: 13px;  --drift-dur: 11s; --drift-delay: 1.4s; }
-.forge__chip--3 { bottom: 12%; right: 6%; --drift: -12px; --drift-dur: 12s; --drift-delay: 0.7s; }
+/* Placement: the five labels ring the constellation, alternating sides and
+   sitting in disjoint horizontal bands so none can collide with another or
+   with the amber core at 50%/50%. Each carries its own drift vector,
+   duration and delay so the group never moves as one. */
+.forge__chip--1 {          /* upper right  */
+  top: 1%; right: -1%;
+  --chip-ch: 24ch;
+  --drift-x: 0px;   --drift-y: -14px; --drift-dur: 9.5s;  --drift-delay: 0s;
+}
+.forge__chip--2 {          /* upper left   */
+  top: 17%; left: -7%;
+  --chip-ch: 19ch;
+  --drift-x: -8px;  --drift-y: 11px;  --drift-dur: 11.5s; --drift-delay: 1.2s;
+}
+.forge__chip--3 {          /* middle left  */
+  top: 47%; left: -9%;
+  --chip-ch: 18ch;
+  --drift-x: 13px;  --drift-y: 0px;   --drift-dur: 10.5s; --drift-delay: 2.1s;
+}
+.forge__chip--4 {          /* lower right  */
+  top: 61%; right: -3%;
+  --chip-ch: 18ch;
+  --drift-x: 7px;   --drift-y: -10px; --drift-dur: 12.5s; --drift-delay: 0.6s;
+}
+.forge__chip--5 {          /* lower left   */
+  bottom: 2%; left: 3%;
+  --chip-ch: 20ch;
+  --drift-x: 9px;   --drift-y: 9px;   --drift-dur: 13.5s; --drift-delay: 1.7s;
+}
 
 /* --- Ticker ------------------------------------------------------------ */
 
@@ -1098,7 +1151,7 @@ p { text-wrap: pretty; }
 
 .stats__grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--sp-6);
   list-style: none;
   margin: 0;
@@ -1158,7 +1211,10 @@ p { text-wrap: pretty; }
 
 .about__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr);
+  /* The credibility panel carries four metric cells now, so the right column
+     takes the larger share — the reverse of the old 1.05/0.85 split, which
+     was sized for a single illustration. */
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   gap: clamp(2.5rem, 1rem + 5vw, 5.5rem);
   align-items: center;
 }
@@ -1233,9 +1289,18 @@ p { text-wrap: pretty; }
   background: linear-gradient(90deg, var(--cyan-ink), var(--amber-ink));
 }
 
-/* --- Capability stack -------------------------------------------------- */
+/* --- Credibility panel -------------------------------------------------- */
 
 .about__figure {
+  /* A dark surface sitting inside a light band. Re-declaring the dark-band
+     semantics here means everything inside can use the ordinary tokens
+     instead of hard-coded literals. */
+  --text-primary:   var(--white);
+  --text-secondary: #C9D1D9;
+  --text-tertiary:  #8E9CBB;
+  --border:         rgba(255, 255, 255, 0.10);
+
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--sp-5);
@@ -1246,66 +1311,124 @@ p { text-wrap: pretty; }
     radial-gradient(120% 90% at 50% 0%, #1B2C63 0%, var(--navy-800) 55%, var(--navy-900) 100%);
   border: 1px solid rgba(17, 29, 71, 0.12);
   box-shadow: 0 30px 60px -30px rgba(17, 29, 71, 0.45);
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.stack { width: 100%; height: auto; }
+/* Faint dot field, masked so it fades out below the header — the same
+   restraint as the hero's grid overlay. isolation on the parent keeps this
+   negative layer above the panel background but under the content. */
+.about__figure::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent 75%);
+  pointer-events: none;
+}
 
-.stack__face {
-  fill: rgba(24, 210, 232, 0.10);
-  stroke: rgba(24, 210, 232, 0.55);
-  stroke-width: 1.2;
+.about__figure-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.about__figure-eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--cyan-500);
+}
+
+/* Same cyan-to-amber signature as .about__sign-mark on the other column. */
+.about__figure-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(24, 210, 232, 0.55), rgba(243, 156, 45, 0.35), transparent);
+}
+
+.proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.proof__item {
+  --proof-size: clamp(1.75rem, 1.2rem + 1.4vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: var(--sp-5);
+}
+
+/* Hairline cross between the four cells — inner edges only. */
+.proof__item:nth-child(2n)    { border-left: 1px solid var(--border); }
+.proof__item:nth-child(n + 3) { border-top: 1px solid var(--border); }
+
+.proof__icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: var(--sp-2);
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(24, 210, 232, 0.28);
+  background-color: rgba(24, 210, 232, 0.08);
+  color: var(--cyan-500);
+}
+.proof__icon svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
-.stack__face--top {
-  fill: rgba(243, 156, 45, 0.14);
-  stroke: rgba(243, 156, 45, 0.7);
+
+.proof__item--alt .proof__icon {
+  border-color: rgba(243, 156, 45, 0.30);
+  background-color: rgba(243, 156, 45, 0.09);
+  color: var(--amber-500);
 }
 
-.stack__side {
-  fill: rgba(10, 18, 51, 0.85);
-  stroke: rgba(24, 210, 232, 0.3);
-  stroke-width: 1;
-  stroke-linejoin: round;
+/* Same fixed-height, bottom-aligned box as .stat__value, so numeral and
+   word metrics share a baseline and their labels line up across the row. */
+.proof__value {
+  display: flex;
+  align-items: flex-end;
+  min-height: calc(var(--proof-size) * 1.05);
+  font-family: var(--font-display);
+  font-size: var(--proof-size);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: var(--ls-display);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
 }
 
-.stack__label {
-  /* Literal, not a token: this figure is a dark surface sitting inside a
-     light band, so the semantic text tokens would resolve to ink colours. */
-  fill: #C9D1D9;
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.13em;
-  text-anchor: middle;
-}
-.stack__label--top { fill: var(--amber-500); }
+.proof__value--alt { color: var(--amber-500); }
 
-.stack__spine {
-  stroke: rgba(255, 255, 255, 0.16);
-  stroke-width: 1;
-  stroke-dasharray: 3 6;
+.proof__value--word {
+  font-size: calc(var(--proof-size) * 0.6);
+  color: var(--cyan-500);
 }
 
-.stack__pin {
-  fill: var(--amber-500);
-  filter: drop-shadow(0 0 10px rgba(243, 156, 45, 0.75));
-}
-
-/* Layers lift slightly and in sequence when the figure is hovered. */
-.stack__layer {
-  transform: translateY(0);
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-.about__figure:hover .stack__layer--2 { transform: translateY(-8px); }
-.about__figure:hover .stack__layer--3 { transform: translateY(-18px); }
-
-.about__caption {
+.proof__label {
   font-size: var(--fs-sm);
-  line-height: 1.6;
-  text-align: center;
-  color: #C9D1D9;
+  font-weight: 600;
+  color: var(--text-primary);
 }
-.about__caption strong { color: var(--white); font-weight: 600; }
+
+.proof__note {
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  color: var(--text-tertiary);
+}
 
 
 /* ==========================================================================
@@ -2086,61 +2209,151 @@ a.contact__row-value:hover { color: var(--cyan-500); }
 
 .contact__urgency { margin-top: var(--sp-1); }
 
-/* --- Stylised map ------------------------------------------------------ */
+/* --- Global availability panel ------------------------------------------ */
 
-.map {
-  width: 100%;
-  margin: var(--sp-2) 0 0;
-  border-radius: var(--r-lg);
+.contact__visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: clamp(1.5rem, 1rem + 1.8vw, 2.5rem);
+  border-radius: var(--r-xl);
+  background-color: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
-  background-color: rgba(255, 255, 255, 0.025);
-  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
 }
 
-.map__art { width: 100%; height: auto; display: block; }
+.globe__eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--cyan-500);
+}
 
-.map__grid path {
-  stroke: rgba(255, 255, 255, 0.07);
+.globe {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1;
+}
+
+/* Soft cyan bloom behind the wireframe, breathing on the shared keyframe. */
+.globe__glow {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(24, 210, 232, 0.22), transparent 68%);
+  filter: blur(26px);
+  animation: pulse-glow 11s var(--ease-in-out) infinite;
+}
+
+.globe__art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* One turn every 90s — present, but never something you watch. */
+.globe__orbit {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.10);
+  stroke-width: 1;
+  stroke-dasharray: 2 10;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 90s linear infinite;
+}
+
+.globe__wire circle,
+.globe__wire ellipse {
+  fill: none;
+  stroke: rgba(24, 210, 232, 0.26);
+  stroke-width: 1;
+}
+.globe__wire > circle { stroke: rgba(24, 210, 232, 0.45); }
+
+.globe__links use {
+  fill: none;
+  stroke: rgba(24, 210, 232, 0.22);
   stroke-width: 1;
 }
 
-.map__road {
-  stroke: rgba(24, 210, 232, 0.35);
+/* Same travelling-dash trick as the hero: pathLength="100" normalises every
+   arc so the packets move at one rate whatever the arc's real length. */
+.globe__packet {
+  fill: none;
+  stroke: var(--cyan-500);
   stroke-width: 2;
   stroke-linecap: round;
-  fill: none;
+  stroke-dasharray: 5 100;
+  filter: drop-shadow(0 0 4px rgba(24, 210, 232, 0.85));
+  animation: packet 6s linear infinite;
 }
-.map__road--minor {
-  stroke: rgba(255, 255, 255, 0.14);
-  stroke-width: 1.5;
+.globe__packet--a { animation-duration: 6.5s; animation-delay: 0.8s; }
+.globe__packet--b { animation-duration: 7.5s; animation-delay: 2.6s; stroke: var(--amber-500); }
+.globe__packet--c { animation-duration: 7s;   animation-delay: 4.2s; }
+
+.globe__node {
+  fill: var(--cyan-500);
+  filter: drop-shadow(0 0 6px rgba(24, 210, 232, 0.7));
+}
+.globe__node--alt {
+  fill: var(--amber-500);
+  filter: drop-shadow(0 0 8px rgba(243, 156, 45, 0.75));
 }
 
-.map__halo {
-  fill: rgba(24, 210, 232, 0.16);
+.globe__ping {
+  fill: none;
+  stroke: rgba(24, 210, 232, 0.5);
+  stroke-width: 1.2;
   transform-box: fill-box;
   transform-origin: center;
-  animation: ping 3.2s var(--ease-out) infinite;
+  animation: ping 5s var(--ease-out) infinite;
 }
+.globe__ping--alt { stroke: rgba(243, 156, 45, 0.55); }
+.globe__ping--b { animation-delay: 1s; }
+.globe__ping--c { animation-delay: 2s; }
+.globe__ping--d { animation-delay: 3s; }
+.globe__ping--e { animation-delay: 4s; }
 
-.map__pin {
-  fill: var(--cyan-500);
-  filter: drop-shadow(0 0 10px rgba(24, 210, 232, 0.8));
-}
-
-.map__caption {
+.globe__body {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   gap: var(--sp-3);
-  padding: var(--sp-4) var(--sp-5);
-  border-top: 1px solid var(--border);
-  font-size: var(--fs-sm);
+}
+
+.globe__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  letter-spacing: var(--ls-heading);
+  color: var(--text-primary);
+}
+
+.globe__text {
+  font-size: var(--fs-body);
   color: var(--text-secondary);
 }
-.map__caption strong { color: var(--text-primary); font-weight: 600; }
 
-/* --- Form -------------------------------------------------------------- */
+.globe__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-1);
+}
+.globe__chips .chip__dot { color: var(--cyan-500); }
+
+.globe__cta { margin-top: var(--sp-3); }
+
+/* --- Form ---------------------------------------------------------------
+   No form ships in this release, but .form/.field remain part of the design
+   system — leave them in place so a form can be dropped back in. The
+   validation in js/main.js is inert without a [data-contact-form] element. */
 
 .contact__form-wrap {
   padding: clamp(1.5rem, 1rem + 1.8vw, 2.5rem);

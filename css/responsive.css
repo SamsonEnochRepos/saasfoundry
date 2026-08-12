@@ -29,6 +29,19 @@
   }
 
   .container--wide { max-width: 1080px; }
+
+  /* From here down the constellation is small enough that full-size labels
+     would smother it: shrink them, pull the outer ones back inside the
+     visual and shorten the drift. Holds for the stacked tablet layout too. */
+  .forge__chip {
+    font-size: 0.6875rem;
+    padding: 0.45rem 0.75rem;
+  }
+  .forge__chip--1 { top: 0;    right: 0;   --drift-y: -10px; }
+  .forge__chip--2 { top: 16%;  left: -2%;  --drift-x: -6px; --drift-y: 8px; }
+  .forge__chip--3 { top: 47%;  left: -3%;  --drift-x: 9px; }
+  .forge__chip--4 { top: 62%;  right: -2%; --drift-x: 5px;  --drift-y: -7px; }
+  .forge__chip--5 { bottom: 0; left: 0;    --drift-x: 6px;  --drift-y: 6px; }
 }
 
 
@@ -56,9 +69,9 @@
   .hero__content { max-width: 46rem; }
   .hero__visual { max-width: 460px; }
 
-  /* Statistics: 5 across no longer fits — wrap to 3 and swap the vertical
-     dividers for horizontal rules so wrapped rows still read cleanly. */
-  .stats__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Statistics: 4 across no longer fits — wrap to a 2x2 and swap the
+     vertical dividers for horizontal rules so both rows still read cleanly. */
+  .stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stat {
     border-left: 0;
     padding-left: 0;
@@ -184,13 +197,7 @@
     transition-delay: 370ms;
   }
 
-  /* --- Hero ------------------------------------------------------------ */
-  .hero__promises { gap: var(--sp-2); }
-  .forge__chip { font-size: 0.6875rem; padding: 0.4rem 0.75rem; }
-
   /* --- Sections -------------------------------------------------------- */
-  .stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
   .about__pillars { grid-template-columns: minmax(0, 1fr); }
 
   .programs__grid,
@@ -253,8 +260,31 @@
   .nav__cta { width: 100%; }
 
   .hero__visual { max-width: 340px; }
-  .forge__chip--2 { left: 0; }
+
+  /* Phone: every label sits fully inside the visual, wrapping stays on the
+     same words (--chip-ch is in characters) and the drift is halved so five
+     moving labels over a 340px network still reads as calm. */
+  .forge__chip {
+    font-size: 0.625rem;
+    padding: 0.4rem 0.7rem;
+    gap: 0.4rem;
+  }
+  .forge__chip-dot { margin-top: 0.3rem; }
+  .forge__chip--1 { right: 0;   --drift-y: -6px; }
+  .forge__chip--2 { top: 17%;  left: 0; --drift-x: -4px; --drift-y: 5px; }
+  .forge__chip--3 { top: 48%;  left: 0; --drift-x: 5px; }
+  .forge__chip--4 { top: 63%;  right: 0; --drift-x: 3px; --drift-y: -4px; }
+  .forge__chip--5 { left: 0;   --drift-x: 4px;  --drift-y: 4px; }
+
   .ticker__group li { font-size: 0.6875rem; }
+
+  /* Credibility panel: two metrics side by side would leave the longer
+     supporting lines a ~100px column, so it becomes a single stack and the
+     cross divider collapses to one rule between rows. */
+  .proof { grid-template-columns: minmax(0, 1fr); }
+  .proof__item { padding: var(--sp-4) 0; }
+  .proof__item:nth-child(2n)    { border-left: 0; }
+  .proof__item:nth-child(n + 2) { border-top: 1px solid var(--border); }
 
   /* --- Sections -------------------------------------------------------- */
   .team__grid { grid-template-columns: minmax(0, 1fr); }
@@ -273,9 +303,8 @@
   .faq__trigger { padding-block: var(--sp-5); gap: var(--sp-4); }
   .faq__label { font-size: 1.0625rem; }
 
+  .contact__visual,
   .contact__form-wrap { padding: var(--sp-6) var(--sp-5); }
-
-  .map__caption { justify-content: flex-start; }
 
   .footer__bottom { justify-content: flex-start; }
 }
