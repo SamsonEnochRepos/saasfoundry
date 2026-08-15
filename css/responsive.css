@@ -49,67 +49,16 @@
    ≤ 992 — tablet landscape
    ========================================================================== */
 @media (max-width: 992px) {
-  :root {
-    --section-y: clamp(5rem, 3rem + 5vw, 7rem);
-    --nav-h: 68px;
-  }
+  :root { --nav-h: 68px; }
 
   .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-  .nav__list { gap: var(--sp-6); }
-
-  /* Hero stacks: headline first, illustration beneath at reduced size. */
-  .hero { min-height: 0; }
-  .hero__inner {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: clamp(2.5rem, 5vw, 4rem);
-  }
-  .hero__content { max-width: 46rem; }
-  .hero__visual { max-width: 460px; }
-
-  /* Statistics: 4 across no longer fits — wrap to a 2x2 and swap the
-     vertical dividers for horizontal rules so both rows still read cleanly. */
-  .stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .stat {
-    border-left: 0;
-    padding-left: 0;
-    padding-top: var(--sp-4);
-    border-top: 1px solid var(--border);
-  }
-  .stats__grid > .stat:first-child { padding-left: 0; }
-
-  .about__grid { grid-template-columns: minmax(0, 1fr); }
-  .about__figure { max-width: 520px; margin-inline: auto; }
-
-  .programs__grid,
-  .why__grid,
-  .team__grid,
-  .quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-  .tech__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-  .contact__grid { grid-template-columns: minmax(0, 1fr); }
-  .contact__title { max-width: none; }
-}
-
-
-/* ==========================================================================
-   ≤ 768 — tablet portrait / large phone
-   ========================================================================== */
-@media (max-width: 768px) {
-  :root {
-    --section-y: 7rem;
-    --container-pad: 1.5rem;
-  }
-
-  .grid--2,
-  .grid--3 { grid-template-columns: minmax(0, 1fr); }
-
-  .section-head { margin-bottom: 2.5rem; }
-
-  /* --- Nav becomes a full-screen overlay ------------------------------ */
+  /* --- Nav becomes a full-screen overlay ------------------------------
+     Raised from 768 to 992: the inline row needs ~830px for the brand, the
+     links and the CTA, so through the whole tablet band it was surviving on
+     ~25px of clearance from the logo. Tablets get the hamburger instead.
+     js/navigation.js watches the same 992 width. */
   .nav-toggle { display: flex; }
 
   /* The overlay lives inside .header, which is a stacking context of its
@@ -170,7 +119,12 @@
   .nav.is-open .nav__list li:nth-child(4) { transition-delay: 250ms; }
   .nav.is-open .nav__list li:nth-child(5) { transition-delay: 310ms; }
 
+  /* Comfortable one-handed targets: the row is 1.75rem type on a 2.75rem
+     minimum box. */
   .nav__link {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
     font-family: var(--font-display);
     font-size: 1.75rem;
     font-weight: 700;
@@ -196,6 +150,53 @@
     transform: none;
     transition-delay: 370ms;
   }
+
+  /* Hero stacks: headline first, illustration beneath at reduced size. */
+  .hero { min-height: 0; }
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+  .hero__content { max-width: 46rem; }
+  .hero__visual { max-width: 460px; }
+
+  /* Statistics: 4 across no longer fits — wrap to a 2x2 and swap the
+     vertical dividers for horizontal rules so both rows still read cleanly. */
+  .stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat {
+    border-left: 0;
+    padding-left: 0;
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--border);
+  }
+  .stats__grid > .stat:first-child { padding-left: 0; }
+
+  /* Stacked: Mission and Vision go back to sitting side by side under the
+     prose, where the full container width gives each a readable measure. */
+  .about__grid { grid-template-columns: minmax(0, 1fr); }
+  .about__pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .programs__grid,
+  .why__grid,
+  .team__grid,
+  .quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .tech__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .contact__grid { grid-template-columns: minmax(0, 1fr); }
+  .contact__title { max-width: none; }
+}
+
+
+/* ==========================================================================
+   ≤ 768 — tablet portrait / large phone
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root { --container-pad: 1.5rem; }
+
+  .grid--2,
+  .grid--3 { grid-template-columns: minmax(0, 1fr); }
 
   /* --- Sections -------------------------------------------------------- */
   .about__pillars { grid-template-columns: minmax(0, 1fr); }
@@ -237,10 +238,7 @@
    ≤ 576 — phone
    ========================================================================== */
 @media (max-width: 576px) {
-  :root {
-    --section-y: 6rem;
-    --container-pad: 1.25rem;
-  }
+  :root { --container-pad: 1.25rem; }
 
   .grid--4 { grid-template-columns: minmax(0, 1fr); }
 
@@ -278,26 +276,30 @@
 
   .ticker__group li { font-size: 0.6875rem; }
 
-  /* Credibility panel: two metrics side by side would leave the longer
-     supporting lines a ~100px column, so it becomes a single stack and the
-     cross divider collapses to one rule between rows. */
-  .proof { grid-template-columns: minmax(0, 1fr); }
-  .proof__item { padding: var(--sp-4) 0; }
-  .proof__item:nth-child(2n)    { border-left: 0; }
-  .proof__item:nth-child(n + 2) { border-top: 1px solid var(--border); }
-
   /* --- Sections -------------------------------------------------------- */
   .team__grid { grid-template-columns: minmax(0, 1fr); }
   .tech__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-6); }
 
   /* Push the duration chip onto its own line so the title gets full width.
-     flex-basis forces the break; max-content keeps the chip pill-sized. */
-  .jcard__head { flex-wrap: wrap; }
+     A zero-width pseudo-element ordered between the heading and the chip
+     forces the line break, which leaves the chip free to size itself as a
+     pill. (Doing it with flex-basis:100% + max-width:max-content does not
+     work: max-width also clamps the hypothetical main size flex uses to
+     decide line breaks, so the chip stayed on the first line and squeezed
+     the title into a 130px column.) */
+  .jcard__head {
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+  .jcard__head::after {
+    content: "";
+    order: 2;
+    flex: 0 0 100%;
+  }
   .jcard__duration {
     order: 3;
-    flex: 0 0 100%;
-    max-width: max-content;
+    margin-top: var(--sp-3);
   }
 
   .faq__trigger { padding-block: var(--sp-5); gap: var(--sp-4); }
@@ -307,6 +309,38 @@
   .contact__form-wrap { padding: var(--sp-6) var(--sp-5); }
 
   .footer__bottom { justify-content: flex-start; }
+}
+
+
+/* ==========================================================================
+   ≤ 768 — touch ergonomics and lighter ambient motion
+
+   Kept in one place rather than sprinkled through the layout blocks above:
+   these are about the input device and the screen's motion budget, not about
+   how the page reflows.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Text links in dense stacks were 19px tall. Trading the list gap for
+     padding grows the hit area to ~35px without lengthening the column:
+     the space between rows becomes part of the target instead of dead air. */
+  .footer__links { gap: 0; }
+  .footer__links a,
+  .footer__plain {
+    display: inline-block;
+    padding-block: 0.5rem;
+  }
+  .footer__legal a,
+  .link-underline { display: inline-block; padding-block: 0.4rem; }
+  .contact__row-value { padding-block: 0.25rem; }
+
+  /* Ambient loops carry less distance and less glow on a small screen: the
+     same idea at a quieter volume, not a different design. */
+  .forge__halo,
+  .globe__glow { filter: blur(18px); opacity: 0.75; }
+
+  .globe__packet { animation-duration: 9s; }
+  .globe__ping   { animation-duration: 6.5s; }
+  .forge__packet { animation-duration: 4.4s; }
 }
 
 

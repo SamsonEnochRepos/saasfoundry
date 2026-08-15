@@ -390,100 +390,42 @@
               Fortune 500 scale.
             </p>
 
-            <div class="about__pillars" data-stagger>
-              <div class="pillar" data-animate="fade-up">
-                <h3 class="pillar__title">Mission</h3>
-                <p class="pillar__text">
-                  To turn professionals into practitioners &mdash; giving every learner
-                  real, applied AI capability matched to their role, not a certificate
-                  of attendance.
-                </p>
-              </div>
-
-              <div class="pillar pillar--alt" data-animate="fade-up">
-                <h3 class="pillar__title">Vision</h3>
-                <p class="pillar__text">
-                  A workforce that deploys AI rather than debating it &mdash; where
-                  every team, technical or not, can design, build and ship agentic
-                  systems with confidence.
-                </p>
-              </div>
-            </div>
-
             <p class="about__sign" data-animate="fade-up">
               <span class="about__sign-mark" aria-hidden="true"></span>
               Curious today, confident tomorrow.
             </p>
           </div>
 
-          <!-- Credibility panel: the four metrics from the statistics band,
-               expanded into a 2x2 grid. The counters reuse the [data-count]
-               contract from js/counters.js, so they animate on their own
-               observer without any extra wiring. -->
-          <figure class="about__figure" data-animate="fade-left">
-            <figcaption class="about__figure-head">
-              <span class="about__figure-eyebrow">SAAS Foundry at a glance</span>
-              <span class="about__figure-rule" aria-hidden="true"></span>
-            </figcaption>
+          <!-- Mission and Vision carry the right column now. Stacked rather
+               than side by side: at this column width a two-up split would
+               leave each card a ~14ch measure. -->
+          <div class="about__pillars" data-stagger>
 
-            <ul class="proof">
+            <article class="pillar" data-animate="fade-left">
+              <header class="pillar__head">
+                <h3 class="pillar__title">Mission</h3>
+                <span class="pillar__rule" aria-hidden="true"></span>
+              </header>
+              <p class="pillar__text">
+                To turn professionals into practitioners &mdash; giving every learner
+                real, applied AI capability matched to their role, not a certificate
+                of attendance.
+              </p>
+            </article>
 
-              <li class="proof__item">
-                <span class="proof__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="9" cy="8" r="3.2"/>
-                    <path d="M3.4 19.4c0-3 2.5-5.2 5.6-5.2s5.6 2.2 5.6 5.2"/>
-                    <path d="M16.2 5.6a3.2 3.2 0 0 1 0 6.2"/>
-                    <path d="M17.6 14.7c1.9.7 3 2.4 3 4.7"/>
-                  </svg>
-                </span>
-                <span class="proof__value"><span data-count="100" data-suffix="+">0</span></span>
-                <span class="proof__label">Professionals Trained</span>
-                <span class="proof__note">On AI &amp; Agentic AI</span>
-              </li>
+            <article class="pillar pillar--alt" data-animate="fade-left">
+              <header class="pillar__head">
+                <h3 class="pillar__title">Vision</h3>
+                <span class="pillar__rule" aria-hidden="true"></span>
+              </header>
+              <p class="pillar__text">
+                A workforce that deploys AI rather than debating it &mdash; where
+                every team, technical or not, can design, build and ship agentic
+                systems with confidence.
+              </p>
+            </article>
 
-              <li class="proof__item proof__item--alt">
-                <span class="proof__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="m8.6 8.2-4.2 3.8 4.2 3.8"/>
-                    <path d="m15.4 8.2 4.2 3.8-4.2 3.8"/>
-                    <path d="M13.4 5.6 10.6 18.4"/>
-                  </svg>
-                </span>
-                <span class="proof__value proof__value--alt"><span data-count="40" data-suffix="+">0</span></span>
-                <span class="proof__label">Developers Enabled</span>
-                <span class="proof__note">Claude Code &amp; Agentic</span>
-              </li>
-
-              <li class="proof__item">
-                <span class="proof__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M3.5 20h17"/>
-                    <path d="M6 20V6.6A1.6 1.6 0 0 1 7.6 5h4.8A1.6 1.6 0 0 1 14 6.6V20"/>
-                    <path d="M14 11.4h2.9a1.6 1.6 0 0 1 1.6 1.6V20"/>
-                    <path d="M9 9h2M9 12.4h2M9 15.8h2"/>
-                  </svg>
-                </span>
-                <span class="proof__value proof__value--word">Enterprise</span>
-                <span class="proof__label">AI Expertise</span>
-                <span class="proof__note">An Expert Group with Real Experience</span>
-              </li>
-
-              <li class="proof__item">
-                <span class="proof__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="8"/>
-                    <path d="M12 4c2.1 2.2 3.2 5 3.2 8s-1.1 5.8-3.2 8c-2.1-2.2-3.2-5-3.2-8S9.9 6.2 12 4Z"/>
-                    <path d="M4.4 9.6h15.2M4.4 14.4h15.2"/>
-                  </svg>
-                </span>
-                <span class="proof__value proof__value--word">Global</span>
-                <span class="proof__label">Industry Reach</span>
-                <span class="proof__note">Global Trainer Network</span>
-              </li>
-
-            </ul>
-          </figure>
+          </div>
 
         </div>
       </div>

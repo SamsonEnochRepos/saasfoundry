@@ -88,8 +88,12 @@
   --sp-5: 1.25rem;  --sp-6: 1.5rem;   --sp-7: 2rem;     --sp-8: 2.5rem;
   --sp-9: 3rem;     --sp-10: 4rem;    --sp-11: 5rem;    --sp-12: 6rem;
 
-  /* Vertical section rhythm: 96px mobile → 160px desktop */
-  --section-y: clamp(6rem, 3rem + 6.5vw, 10rem);
+  /* Vertical section rhythm: 52px phone → 73px tablet → 137px desktop →
+     160px at 1684 and above. Purely viewport-driven, so the ladder is
+     monotonic and no breakpoint needs to restate it — a stepped override
+     that lands above the curve is how the old 768px band ended up with more
+     padding than the 900px one. */
+  --section-y: clamp(3.25rem, 9.5vw, 10rem);
 
   /* --- Layout ------------------------------------------------------------ */
   --container:     1200px;
@@ -361,7 +365,8 @@ p { text-wrap: pretty; }
   flex-direction: column;
   gap: var(--sp-4);
   max-width: 760px;
-  margin-bottom: clamp(2.5rem, 1.5rem + 2.5vw, 4.5rem);
+  /* The min only bites below ~640px, so desktop spacing is unchanged. */
+  margin-bottom: clamp(2rem, 1.5rem + 2.5vw, 4.5rem);
 }
 
 .section-head--center {
@@ -1211,10 +1216,10 @@ p { text-wrap: pretty; }
 
 .about__grid {
   display: grid;
-  /* The credibility panel carries four metric cells now, so the right column
-     takes the larger share — the reverse of the old 1.05/0.85 split, which
-     was sized for a single illustration. */
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  /* Prose on the left, Mission/Vision on the right. The narrative carries the
+     section, so the text column keeps the larger share and the cards read as
+     the summary beside it. */
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   gap: clamp(2.5rem, 1rem + 5vw, 5.5rem);
   align-items: center;
 }
@@ -1237,23 +1242,40 @@ p { text-wrap: pretty; }
   max-width: var(--measure);
 }
 
+/* --- Mission / Vision --------------------------------------------------- */
+
 .about__pillars {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-5);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-6);
   width: 100%;
-  margin-top: var(--sp-2);
 }
 
 .pillar {
-  padding: var(--sp-5) var(--sp-6);
-  border-left: 2px solid var(--cyan-ink);
-  border-radius: 0 var(--r-md) var(--r-md) 0;
-  background-color: rgba(24, 210, 232, 0.06);
+  --pillar-accent: var(--cyan-ink);
+  --pillar-wash:   rgba(24, 210, 232, 0.07);
+
+  padding: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pillar-accent);
+  border-radius: 0 var(--r-lg) var(--r-lg) 0;
+  background:
+    linear-gradient(180deg, var(--pillar-wash), rgba(255, 255, 255, 0) 90%),
+    var(--paper-alt);
+  box-shadow: var(--shadow-light);
 }
 .pillar--alt {
-  border-left-color: var(--amber-ink);
-  background-color: rgba(243, 156, 45, 0.07);
+  --pillar-accent: var(--amber-ink);
+  --pillar-wash:   rgba(243, 156, 45, 0.08);
+}
+
+/* Label plus a rule running to the card edge — the same signature the
+   section's sign-off mark uses, so both columns share a detail. */
+.pillar__head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-3);
 }
 
 .pillar__title {
@@ -1261,14 +1283,19 @@ p { text-wrap: pretty; }
   font-weight: 700;
   letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
-  color: var(--cyan-ink);
-  margin-bottom: var(--sp-2);
+  color: var(--pillar-accent);
 }
-.pillar--alt .pillar__title { color: var(--amber-ink); }
+
+.pillar__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--pillar-accent), transparent);
+  opacity: 0.45;
+}
 
 .pillar__text {
-  font-size: var(--fs-sm);
-  line-height: 1.6;
+  font-size: var(--fs-body);
+  line-height: 1.65;
   color: var(--text-secondary);
 }
 
@@ -1287,147 +1314,6 @@ p { text-wrap: pretty; }
   height: 2px;
   border-radius: 2px;
   background: linear-gradient(90deg, var(--cyan-ink), var(--amber-ink));
-}
-
-/* --- Credibility panel -------------------------------------------------- */
-
-.about__figure {
-  /* A dark surface sitting inside a light band. Re-declaring the dark-band
-     semantics here means everything inside can use the ordinary tokens
-     instead of hard-coded literals. */
-  --text-primary:   var(--white);
-  --text-secondary: #C9D1D9;
-  --text-tertiary:  #8E9CBB;
-  --border:         rgba(255, 255, 255, 0.10);
-
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
-  margin: 0;
-  padding: clamp(1.25rem, 0.75rem + 2vw, 2.25rem);
-  border-radius: var(--r-xl);
-  background:
-    radial-gradient(120% 90% at 50% 0%, #1B2C63 0%, var(--navy-800) 55%, var(--navy-900) 100%);
-  border: 1px solid rgba(17, 29, 71, 0.12);
-  box-shadow: 0 30px 60px -30px rgba(17, 29, 71, 0.45);
-  overflow: hidden;
-  isolation: isolate;
-}
-
-/* Faint dot field, masked so it fades out below the header — the same
-   restraint as the hero's grid overlay. isolation on the parent keeps this
-   negative layer above the panel background but under the content. */
-.about__figure::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 22px 22px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent 75%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent 75%);
-  pointer-events: none;
-}
-
-.about__figure-head {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-4);
-}
-
-.about__figure-eyebrow {
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  letter-spacing: var(--ls-eyebrow);
-  text-transform: uppercase;
-  color: var(--cyan-500);
-}
-
-/* Same cyan-to-amber signature as .about__sign-mark on the other column. */
-.about__figure-rule {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(24, 210, 232, 0.55), rgba(243, 156, 45, 0.35), transparent);
-}
-
-.proof {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.proof__item {
-  --proof-size: clamp(1.75rem, 1.2rem + 1.4vw, 2.25rem);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
-  padding: var(--sp-5);
-}
-
-/* Hairline cross between the four cells — inner edges only. */
-.proof__item:nth-child(2n)    { border-left: 1px solid var(--border); }
-.proof__item:nth-child(n + 3) { border-top: 1px solid var(--border); }
-
-.proof__icon {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  margin-bottom: var(--sp-2);
-  border-radius: var(--r-sm);
-  border: 1px solid rgba(24, 210, 232, 0.28);
-  background-color: rgba(24, 210, 232, 0.08);
-  color: var(--cyan-500);
-}
-.proof__icon svg {
-  width: 19px;
-  height: 19px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.proof__item--alt .proof__icon {
-  border-color: rgba(243, 156, 45, 0.30);
-  background-color: rgba(243, 156, 45, 0.09);
-  color: var(--amber-500);
-}
-
-/* Same fixed-height, bottom-aligned box as .stat__value, so numeral and
-   word metrics share a baseline and their labels line up across the row. */
-.proof__value {
-  display: flex;
-  align-items: flex-end;
-  min-height: calc(var(--proof-size) * 1.05);
-  font-family: var(--font-display);
-  font-size: var(--proof-size);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: var(--ls-display);
-  color: var(--text-primary);
-  font-variant-numeric: tabular-nums;
-}
-
-.proof__value--alt { color: var(--amber-500); }
-
-.proof__value--word {
-  font-size: calc(var(--proof-size) * 0.6);
-  color: var(--cyan-500);
-}
-
-.proof__label {
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.proof__note {
-  font-size: var(--fs-xs);
-  line-height: 1.5;
-  color: var(--text-tertiary);
 }
 
 
@@ -2504,13 +2390,22 @@ a.contact__row-value:hover { color: var(--cyan-500); }
 .footer__plain {
   font-size: var(--fs-sm);
   color: var(--text-secondary);
+  /* The email address is a single 188px token and the footer's third column
+     is narrower than that between 769 and 1100 — without this it pushes the
+     document wider than the viewport. Wide columns never trigger a break. */
+  overflow-wrap: anywhere;
   transition: color var(--dur) var(--ease-out);
 }
 .footer__links a:hover { color: var(--cyan-500); }
 .footer__plain { color: var(--text-tertiary); }
 
+/* Four 40px plates plus gaps need 196px and cannot shrink, so they must be
+   allowed to wrap — in the 890–1100px band the footer's third column is
+   narrower than that and the row was pushing the document wider than the
+   viewport. */
 .socials {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--sp-3);
   margin-top: var(--sp-2);
 }

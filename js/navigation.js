@@ -5,7 +5,8 @@
  * section is absent.
  */
 
-const MOBILE_QUERY = window.matchMedia('(max-width: 768px)');
+/** Must match the width at which responsive.css turns .nav into an overlay. */
+const MOBILE_QUERY = window.matchMedia('(max-width: 992px)');
 
 /** Elements that can receive keyboard focus inside the mobile menu. */
 const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
